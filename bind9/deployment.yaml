@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind
+  template:
+    metadata:
+      labels:
+        app: bind
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: bind
+        image: sameersbn/bind:9.16.1-20200524
+        ports:
+        - containerPort: 53
+          containerPort: 10000
+        volumeMounts:
+        - name: dnsrecords
+          mountPath: /data
+      volumes:
+      - name: dnsrecords
+        azureFile:
+          secretName: bind-storage
+          shareName: named
+          readOnly: false
