@@ -20,12 +20,3 @@ spec:
         ports:
         - containerPort: 53
           containerPort: 10000
-        volumeMounts:
-        - name: dnsrecords
-          mountPath: /data
-      volumes:
-      - name: dnsrecords
-        azureFile:
-          secretName: bind-storage
-          shareName: named
-          readOnly: false
